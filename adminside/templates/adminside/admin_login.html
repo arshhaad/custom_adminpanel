@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #4da3ff, #ffffff);
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+            backdrop-filter: blur(6px);
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #003f7f;
+        }
+
+        /* Rounded input fields */
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 12px 0;
+            border-radius: 12px; /* more rounded */
+            border: 1px solid #7aa7ff;
+            outline: none;
+        }
+        input:focus {
+            border-color: #0056ff;
+            box-shadow: 0 0 5px rgba(0, 86, 255, 0.5);
+        }
+
+        /* Rounded Login Button */
+        button {
+            background: linear-gradient(90deg, #0066ff, #66b3ff);
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 15px; /* more rounded */
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #0052cc, #4da3ff);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+            <h2>Admin Login</h2>
+                <form method="post" action="{% url 'admin_login' %}">
+                    {% csrf_token %}
+
+                    {% if messages %}
+                        {% for msg in messages %}
+                            <div class="msg">{{ msg }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {{ form.non_field_errors }}
+
+                    <label>Admin name</label>
+                    {{ form.username }}
+
+                    <label>Password</label>
+                    {{ form.password }}
+
+                    <button type="submit">Login</button>
+                </form>
+
+
+    </div>
+</body>
+</html>

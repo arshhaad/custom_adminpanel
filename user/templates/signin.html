@@ -1,0 +1,36 @@
+{% extends 'index.html'%}
+{% block content %}
+<div class="login-box">
+    <h3>Create an Account</h3>
+    <form method="post" action="{% url 'signin' %}">
+        {% csrf_token %}
+
+         {{ form.non_field_errors }}
+
+              <div class="field">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ form.username.errors }}
+              </div>
+
+              <div class="field">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+                {{ form.email.errors }}
+              </div>
+
+              <div class="field">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+              </div>
+
+              <div class="field">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+        <button type="submit">Sign Up</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+  </div>
+{% endblock content %}

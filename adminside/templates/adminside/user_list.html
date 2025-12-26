@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List Simple</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #cce2ff, #ffffff, #b3d4ff);
+            background-size: cover;
+            background-attachment: fixed;
+            padding: 40px 0;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: rgba(255,255,255,0.95);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #0d47a1;
+            font-size: 26px;
+        }
+
+        .add-btn {
+            float: right;
+            background: #1565c0;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.20);
+        }
+
+        .add-btn:hover {
+            background: #0d47a1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            clear: both;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #c5d9f5;
+            text-align: left;
+        }
+
+        th {
+            background: #bbdefb;
+        }
+
+        tr:hover {
+            background: #e3f2fd;
+        }
+
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Rounded search box */
+        .input-group input[type=search] {
+            border-radius: 25px;
+            padding: 12px 18px;
+            border: 1px solid #90caf9;
+            width: 65%;
+            outline: none;
+        }
+
+        /* OK button blue */
+        .btn-outline-secondary {
+            background: #1565c0;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.20);
+            cursor: pointer;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #0d47a1;
+        }
+
+
+        .edit { background: #4caf50; color: white; }
+        .delete { background: #f44336; color: white; }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>User List</h2>
+
+        
+
+        <!-- inside user_list.html -->
+<a href="{% url 'user_add' %}"><button class="add-btn">+ Add User</button></a>
+        <form method="GET" class="input-group" action="{% url 'user_list' %}">
+                    <input type="search"
+                        name="q"
+                        class="form-control form-control-lg"
+                        placeholder="Search by username or email "
+                        value="{{ query|default:'' }}">
+                    
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="fas fa-search">search</i>
+                    </button>
+                    {% if query %}
+                        <a href="{% url 'users' %}" class="btn btn-outline-danger"><i class="fas fa-times"></i> Clear</a>
+                    {% endif %}
+                </form>
+<table>
+    
+  <tr><th>ID</th><th>Name</th><th>Email</th><th>Actions</th></tr>
+  {% for u in users %}
+  <tr>
+    <td>{{ u.id }}</td> 
+    <td>{{ u.username }}</td>
+    <td>{{ u.email }}</td>
+    <td>
+      <a href="{% url 'user_edit' u.id %}"><button class="btn edit">Edit</button></a>
+      <a href="{% url 'user_delete' u.id %}">
+        <button class="btn delete" type="button">Delete</button>
+       </a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+        </table>
+    </div>
+    
+</body>
+</html>

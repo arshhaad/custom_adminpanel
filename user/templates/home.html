@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+
+
+{% block content %}
+    
+
+    <div class="login-box">
+        <h2>Welcome {{ user.username }} ✅</h2>
+        
+        <a href="{% url 'logout' %}">
+            <button type="button">Logout</button>
+        </a>
+    </div>
+{% endblock content %}

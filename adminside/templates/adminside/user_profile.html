@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Details</title>
+
+    <style>
+
+        body {
+            font-family: "Arial", sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .page-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 45px;
+        }
+
+        .dashboard-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2e4a;
+            margin: 0;
+        }
+
+        .dashboard-subtitle {
+            margin-top: 5px;
+            color: #6c7a91;
+            font-size: 15px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            padding: 12px 22px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #006bff;
+        }
+
+        .btn-primary:hover {
+            background: #0052cc;
+        }
+
+        .btn-danger {
+            background: #ff3b3b;
+        }
+
+        .btn-danger:hover {
+            background: #cc2e2e;
+        }
+
+        /* ALERTS */
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .alert-info { background: #d9ecff; color: #1b4f80; }
+        .alert-success { background: #dff6e3; color: #18632f; }
+        .alert-danger { background: #ffe0e0; color: #7d1e1e; }
+
+        /* CARD */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        /* ROW */
+        .row {
+            display: flex;
+            gap: 25px;
+        }
+        .col {
+            width: 50%;
+        }
+
+        /* PROFILE LIST */
+        .profile-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .profile-list li {
+            padding: 14px 0;
+            border-bottom: 1px solid #e6e6e6;
+            font-size: 16px;
+        }
+
+        .profile-list strong {
+            color: #1f2e4a;
+        }
+
+        .profile-list span {
+            color: #4b5d76;
+        }
+
+        /* BADGES */
+        .badge {
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .bg-success { background: #28a745; }
+        .bg-danger { background: #e63939; }
+        .bg-secondary { background: #6c757d; }
+        .bg-primary { background: #007bff; }
+
+        /* BACK BUTTON */
+        .btn-outline {
+            padding: 8px 15px;
+            border: 2px solid #6c7a91;
+            color: #6c7a91;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-outline:hover {
+            background: #6c7a91;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="page-container">
+
+    <header class="dashboard-header">
+        <div>
+            <h1 class="dashboard-title"><i class="fas fa-user-circle"></i> {{ user.username }}</h1>
+            <p class="dashboard-subtitle">{{ user_role }} since {{ user.date_joined|date:"M j, Y" }}</p>
+        </div>
+
+        <div>
+            <a href="{% url 'user_edit' user.pk %}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit Credentials</a>
+            <a href="{% url 'user_delete' user.pk %}" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete User</a>
+        </div>
+    </header>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card">
+        <h4 class="card-title">Account Details</h4>
+
+        <div class="row">
+
+            <div class="col">
+                <ul class="profile-list">
+                    <li><strong>Username:</strong> <span>{{ user.username }}</span></li>
+                    <li><strong>Email:</strong> <span>{{ user.email }}</span></li>
+                    <li><strong>Full Name:</strong> <span>{{ user.get_full_name|default:'N/A' }}</span></li>
+                    <li><strong>Date Joined:</strong> <span>{{ user.date_joined|date:"F j, Y, h:i A" }}</span></li>
+                    <li><strong>Last Login:</strong> <span>{{ user.last_login|default:'Never'|date:"F j, Y, h:i A" }}</span></li>
+                </ul>
+            </div>
+
+            <div class="col">
+                <ul class="profile-list">
+                    <li><strong>Account Status:</strong>
+                        {% if user.is_active %}
+                        <span class="badge bg-success">Active</span>
+                        {% else %}
+                        <span class="badge bg-danger">Inactive</span>
+                        {% endif %}
+                    </li>
+
+                    <li><strong>Role:</strong>
+                        <span class="badge bg-primary">{{ user_role }}</span>
+                    </li>
+
+                    <li><strong>Staff Access:</strong>
+                        {% if user.is_staff %}
+                        <span class="badge bg-success">Yes</span>
+                        {% else %}
+                        <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </li>
+
+                    <li><strong>Superuser Privileges:</strong>
+                        {% if user.is_superuser %}
+                        <span class="badge bg-danger">Yes</span>
+                        {% else %}
+                        <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </li>
+
+                    <li>
+                        <a href="{% url 'users' %}" class="btn-outline">
+                            <i class="fas fa-arrow-left"></i> Back to User List
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

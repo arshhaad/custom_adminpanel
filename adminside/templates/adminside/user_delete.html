@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete User</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #cce0ff, #ffffff);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+        .dashboard-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .dashboard-title {
+            color: #d9534f;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        .dashboard-subtitle {
+            color: #555;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #d9534f;
+            width: 500px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        }
+        .card-title {
+            font-size: 24px;
+            color: #d9534f;
+            margin-bottom: 15px;
+        }
+        .alert-danger {
+            background: #f8d7da;
+            color: #842029;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .list-group-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        .btn-danger {
+            background: #d9534f;
+            color: white;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">⚠️ Delete User</h1>
+            <p class="dashboard-subtitle">You are confirm delete the account.</p>
+        </header>
+
+        <div class="card">
+            <h5 class="card-title">Are you sure?</h5>
+            <p class="alert-danger">
+                <strong>Warning:</strong> Deleting the user <strong>{{ user.username }}</strong> ({{ user.email }}) will remove the account.
+            </p>
+
+            <div class="list-group">
+                <div class="list-group-item"><strong>Username:</strong> {{ user.username }}</div>
+                <div class="list-group-item"><strong>email:</strong> {{ user.email }}</div>
+            </div>
+            
+        <form method="post" action="{% url 'user_delete' user.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete This User</button>
+            <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancel</a>
+         </form>
+         
+
+        </div>
+    </div>
+
+</body>
+</html>
