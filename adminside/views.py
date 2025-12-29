@@ -60,7 +60,7 @@ def dashboard(request):
 def user_list(request):
     if not request.user.is_superuser:
         return redirect("home")
-    users = User.objects.all()
+    users = User.objects.all().order_by("-date_joined")
     query = request.GET.get("q")
 
     if query:
