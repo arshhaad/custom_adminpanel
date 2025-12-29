@@ -11,7 +11,7 @@ class AdminUserForm(forms.ModelForm):
 
     def clean_username(self):
         username = self.cleaned_data["username"]
-        # case-insensitive check
+        #case-insensitive 
         if User.objects.filter(username__iexact=username).exists():
             raise ValidationError("That username is already taken.")
         return username

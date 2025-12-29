@@ -27,15 +27,15 @@ class UserForm(forms.ModelForm):
                 )
             if pwd != cpwd:
                 raise forms.ValidationError("Passwords don't match.")
-            if len(pwd) < 6:
-                raise forms.ValidationError("Password must be at least 6 characters.")
+            if len(pwd) < 8:
+                raise forms.ValidationError("Password must be at least 8 characters.")
         return cleaned
 
     def save(self, commit=True):
         user = super().save(commit=False)
         pwd = self.cleaned_data.get("password")
         if pwd:
-            user.set_password(pwd)  # <- hash password
+            user.set_password(pwd)  # hash password
         if commit:
             user.save()
         return user
