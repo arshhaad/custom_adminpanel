@@ -60,7 +60,7 @@ def signin_view(request):
         form = CustomUser(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request,"Signup successful Please login to continue.")
+            messages.success(request,"Signup successful Please login to continue")
             return redirect("login")
     else:
         form = CustomUser()
