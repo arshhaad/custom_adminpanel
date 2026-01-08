@@ -4,6 +4,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUser
+from django.contrib import messages
+
 
 
 # INDEX
@@ -58,6 +60,7 @@ def signin_view(request):
         form = CustomUser(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,"Signup successful Please login to continue.")
             return redirect("login")
     else:
         form = CustomUser()
